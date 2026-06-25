@@ -4,7 +4,7 @@
 
 ![Python](https://img.shields.io/badge/python-3.8%2B-00F5FF)
 ![Dependencies](https://img.shields.io/badge/dependencies-none-00FF88)
-![License](https://img.shields.io/badge/license-MIT-9B5DE5)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 ![Status](https://img.shields.io/badge/status-active-00F5FF)
 
 PhantomRecon points at any website and comes back with a full passive recon report — tech stack, security headers, SSL/TLS health, real CVE matches, attack surface, cookies, third-party services, and a weighted security score. Single Python file, zero pip installs, terminal-first, color-coded — same DNA as `PhantomSniff` and `PhantomShield AI`.
@@ -26,6 +26,15 @@ PhantomRecon points at any website and comes back with a full passive recon repo
 This tool is for **authorized security testing, bug bounty programs, and learning**. Only scan domains/IPs you own or have explicit written permission to test. Scanning systems without authorization may be illegal in your jurisdiction.
 
 ---
+## ⚠️ Legal & Ethical Use
+
+PhantomRecon only performs checks you could already make by visiting a site
+in a browser, inspecting its TLS handshake, resolving DNS, or making a TCP
+connection — it does **not** exploit, brute-force, or attack anything.
+
+**Only run this against systems you own or are explicitly authorized to
+test.** Unauthorized scanning of third-party systems may be illegal in your
+jurisdiction (e.g. India's IT Act, 2000 — Section 43).
 
 ## Features
 
