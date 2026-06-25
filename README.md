@@ -1,30 +1,29 @@
-# PhantomAuthor
+# 👻 PhantomRecon
+
+**Website reconnaissance & security fingerprinting CLI — part of the Phantom security toolkit.**
+
+![Python](https://img.shields.io/badge/python-3.8%2B-00F5FF)
+![Dependencies](https://img.shields.io/badge/dependencies-none-00FF88)
+![License](https://img.shields.io/badge/license-MIT-9B5DE5)
+![Status](https://img.shields.io/badge/status-active-00F5FF)
+
+PhantomRecon points at any website and comes back with a full passive recon report — tech stack, security headers, SSL/TLS health, real CVE matches, attack surface, cookies, third-party services, and a weighted security score. Single Python file, zero pip installs, terminal-first, color-coded — same DNA as `PhantomSniff` and `PhantomShield AI`.
 
 ```
-╔══════════════════════════════════════════════════════════════════╗
-║                                                                  ║
-║      P H A N T O M A U T H O R  -  Web Recon & Intel Tool        ║
-║      Attack Surface Intelligence  |  Phantom Series              ║
-║                                                                  ║
-╚══════════════════════════════════════════════════════════════════╝
+  ███████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
+  ██╔══██║ ██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
+  ██████╔╝ ███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
+  ██╔══╝   ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
+  ██║      ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
+  ╚═╝      ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
+                    R E C O N
 ```
-
-**PhantomAuthor** is a single-file, terminal-first Python CLI tool that performs
-passive/low-impact web reconnaissance and attack-surface intelligence gathering
-against a target website, domain, or IP. Part of the **Phantom** security
-tooling series.
 
 ---
 
-## ⚠️ Legal & Ethical Use
+## ⚠️ Use Responsibly
 
-PhantomAuthor only performs checks you could already make by visiting a site
-in a browser, inspecting its TLS handshake, resolving DNS, or making a TCP
-connection — it does **not** exploit, brute-force, or attack anything.
-
-**Only run this against systems you own or are explicitly authorized to
-test.** Unauthorized scanning of third-party systems may be illegal in your
-jurisdiction (e.g. India's IT Act, 2000 — Section 43).
+This tool is for **authorized security testing, bug bounty programs, and learning**. Only scan domains/IPs you own or have explicit written permission to test. Scanning systems without authorization may be illegal in your jurisdiction.
 
 ---
 
@@ -32,116 +31,122 @@ jurisdiction (e.g. India's IT Act, 2000 — Section 43).
 
 | # | Module | What it does |
 |---|--------|---------------|
-| 1 | **Technology Detection** | Frontend framework, backend tech, language, web server, CMS, hosting/cloud — via header & HTML signature matching |
-| 2 | **Database Fingerprinting** | Confidence-scored *estimate* of likely backing database, based on stack conventions and any leaked DB error strings |
-| 3 | **Security Header Analysis** | CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy — flags missing headers with risk level |
-| 4 | **SSL/TLS Scanner** | Real TLS handshake: protocol version, cipher suite, weak-cipher detection, certificate issuer & expiry |
-| 5 | **Vulnerability Intelligence** | Queries the **real public NVD API** for known CVEs matching detected software — only ever shows real, published CVE IDs/severity/CVSS, never fabricated data |
-| 6 | **Attack Surface Discovery** | Common open ports (TCP connect), admin/login panel probing, exposed API path probing, passive subdomain DNS guesses |
-| 7 | **Cookie Analysis** | Secure flag, HttpOnly, SameSite attribute per cookie |
+| 1 | **Technology Detection** | Fingerprints frontend framework, backend tech, language, web server, CMS, and hosting/cloud provider from live headers + HTML |
+| 2 | **Database Fingerprinting** | Heuristic confidence score (e.g. `MySQL — 70%`) inferred from detected stack signals |
+| 3 | **Security Header Analysis** | Checks CSP, HSTS, X-Frame-Options, X-Content-Type-Options, Referrer-Policy, with risk rating per gap |
+| 4 | **SSL/TLS Scanner** | TLS version, cipher suite, certificate issuer & expiry, weak-cipher detection |
+| 5 | **Vulnerability Intelligence** | Matches detected software + version against live **NVD** CVE data and flags anything in the **CISA KEV** (actively exploited) catalog |
+| 6 | **Attack Surface Discovery** | Common open ports, subdomains (via certificate transparency / crt.sh), exposed admin/login/API paths |
+| 7 | **Cookie Analysis** | Secure / HttpOnly / SameSite flags per cookie |
 | 8 | **Third-Party Services** | Google Analytics, Firebase, Stripe, Razorpay, reCAPTCHA, CDN providers |
-| 9 | **Performance Analysis** | Load time, HTML page size, sampled JS/CSS size |
-| 10 | **Security Score** | Composite 0–100 score with sub-scores for Technology Security, Headers, SSL, and Configuration |
+| 9 | **Performance Analysis** | Real load time, page size, JS size, CSS size |
+| 10 | **Security Score** | Weighted 0–100 score across Technology, Headers, SSL, and Configuration |
 
-At the end of a scan, you can save the full report as a structured JSON file.
+Every result is computed from real responses — no fabricated numbers. CVE data only lists publicly known vulnerabilities for the version actually detected; no exploit code is generated.
 
 ---
 
 ## Requirements
 
-- Python 3.8+
-- `requests` library
+- Python **3.8+**
+- No third-party packages. Everything runs on the standard library (`urllib`, `socket`, `ssl`, `concurrent.futures`).
+
+## Installation
 
 ```bash
-pip install requests
+# just grab the one file
+python3 phantom_recon.py
 ```
 
-No `nmap`, `Shodan`, or paid APIs required. Everything works out of the box.
-
----
+That's it. Nothing to `pip install`.
 
 ## Usage
 
 ```bash
-python3 phantom_author.py
+python3 phantom_recon.py
 ```
 
-You'll get an interactive menu:
+You'll land on the menu:
 
 ```
-[1] Run Full Scan
-[2] About PhantomAuthor
-[0] Exit
+phantom-recon> 0          # set your target first
+Website URL or Domain: example.com
+IP Address (optional, Enter to auto-resolve):
+
+phantom-recon> 1          # run the full scan
 ```
 
-Choose **[1]**, then provide:
-- **Website URL or Domain Name** (required) — e.g. `example.com` or `https://example.com`
-- **IP Address** (optional) — shown in the report header if provided
+| Choice | Action |
+|--------|--------|
+| `0` | Set / change target (URL, domain, optional IP) |
+| `1` | Full Recon Scan — runs all 10 modules and prints the score |
+| `2`–`10` | Run a single module on its own |
+| `11` | Export the last full report to JSON |
+| `12` | Exit |
 
-The tool will fetch the target, run all 10 modules in sequence, print colored
-results to the terminal, and offer to save a full JSON report at the end.
+## Optional Free API Keys
 
----
+PhantomRecon works fully without any keys. Set these as environment variables to unlock more data:
 
-## Optional Environment Variable
-
-| Variable | Purpose |
-|----------|---------|
-| `NVD_API_KEY` | Raises your rate limit against the NVD CVE API. Get a free key at [nvd.nist.gov/developers/request-an-api-key](https://nvd.nist.gov/developers/request-an-api-key) |
+| Variable | Unlocks | Get it |
+|----------|---------|--------|
+| `NVD_API_KEY` | Higher CVE lookup rate limit (5/30s → 50/30s) | [nvd.nist.gov/developers/request-an-api-key](https://nvd.nist.gov/developers/request-an-api-key) (free) |
+| `SHODAN_API_KEY` | Enriches Attack Surface with Shodan's pre-scanned host data (org, OS, known ports/vulns) | [shodan.io](https://shodan.io) (free dev key) |
 
 ```bash
 export NVD_API_KEY="your-key-here"
-python3 phantom_author.py
+export SHODAN_API_KEY="your-key-here"
+python3 phantom_recon.py
 ```
 
-Without a key, the tool still works — it just respects the NVD's stricter
-public rate limit and adds small delays between lookups.
-
----
-
-## Example Output (abridged)
+## Sample Output
 
 ```
-◆ 1. TECHNOLOGY DETECTION
-------------------------------------------------------------------------
-   CMS Detection:              WordPress
-   Web Server:                 Nginx
-   Hosting/Cloud:               Cloudflare
+┌─[ 3. SECURITY HEADER ANALYSIS ]─────────────────────────
+  ✘ CSP: Missing  [Risk: High]
+  ✔ HSTS: Present
+  ✘ X-Frame-Options: Missing  [Risk: Medium]
 
-◆ 10. SECURITY SCORE
-------------------------------------------------------------------------
-   Overall Score: 78/100
+┌─[ 5. VULNERABILITY INTELLIGENCE (NVD + CISA KEV) ]──────
+  WordPress 6.2
+    CVE-2023-XXXXX  Severity: HIGH  CVSS: 8.1
+    Unauthenticated stored XSS in block editor...
 
-   Technology Security:   80/100
-   Headers:               60/100
-   SSL:                   95/100
-   Configuration:         75/100
+┌─[ 10. SECURITY SCORE ]───────────────────────────────────
+  Overall Score: 78/100
+    Technology Security   85/100
+    Headers                60/100
+    SSL                    95/100
+    Configuration          75/100
 ```
 
+## How It Works (Methodology)
+
+- **Tech/CMS/server detection** — pattern matching on response headers + HTML, same approach as Wappalyzer
+- **DB fingerprinting** — passive heuristic only; PhantomRecon never sends probing payloads to trigger DB errors
+- **Vuln intel** — live keyword query against NVD's public CVE API + cross-reference against CISA's published Known Exploited Vulnerabilities feed
+- **Attack surface** — short-timeout connect scan on ~19 common ports, certificate-transparency subdomain lookup via crt.sh, and a small built-in wordlist for common admin/login/API paths
+- **Performance** — actual measured load time and fetched JS/CSS payload sizes, not estimates
+
+## Project Structure
+
+```
+phantom_recon.py   # everything — banner, menu, all 10 modules, scoring, JSON export
+```
+
+One file, by design — same pattern as the rest of the Phantom toolkit.
+
+## Roadmap
+
+- [ ] **v2**: full web app — React/Next.js + Tailwind frontend, FastAPI backend, PostgreSQL for scan history
+- [ ] Nuclei template integration for active vuln confirmation (with explicit opt-in)
+- [ ] Scheduled/recurring scans with diffing between runs
+- [ ] PDF report export
+
+## License
+
+MIT — use it, fork it, break it.
+
 ---
 
-## Design Notes
-
-- **Single Python file** — no web framework, no build step.
-- **Menu-driven, color-coded** — ANSI 256-color palette (cyan / violet / green
-  on near-black), consistent with the rest of the Phantom CLI tool series
-  (PhantomSniff, PhantomShield AI, PhantomCTF).
-- **Honesty-first reporting** — anything that can't be verified (e.g. database
-  type, exact CVE-to-version match) is explicitly labeled as an *estimate* or
-  skipped entirely rather than guessed and presented as fact.
-- **No active exploitation** — port checks are plain TCP connects, path probes
-  are plain GET requests, subdomain discovery is plain DNS resolution.
-
----
-
-## Roadmap Ideas
-
-- Optional Shodan API integration for richer port/service data (with explicit
-  user opt-in and API key)
-- Export to PDF/HTML report alongside JSON
-- Integration hook for the PhantomCTF dashboard
-
----
-
-*Part of the Phantom security tooling series — built for hands-on
-cybersecurity learning and authorized recon practice.*
+Built as part of the **Phantom** security toolkit · `PhantomSniff` · `PhantomShield AI` · `PhantomCTF` · **PhantomRecon**
