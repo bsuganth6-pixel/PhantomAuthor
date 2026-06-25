@@ -154,7 +154,7 @@ One file, by design — same pattern as the rest of the Phantom toolkit.
 
 ## License
 
-MIT — use it, fork it, break it.
+This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE) file for details.
 
 ---
 
