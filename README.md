@@ -1,4 +1,4 @@
-# 👻 PhantomRecon
+# 👻 PhantomAuthor
 
 **Website reconnaissance & security fingerprinting CLI — part of the Phantom security toolkit.**
 
@@ -7,16 +7,29 @@
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 ![Status](https://img.shields.io/badge/status-active-00F5FF)
 
-PhantomRecon points at any website and comes back with a full passive recon report — tech stack, security headers, SSL/TLS health, real CVE matches, attack surface, cookies, third-party services, and a weighted security score. Single Python file, zero pip installs, terminal-first, color-coded — same DNA as `PhantomSniff` and `PhantomShield AI`.
+PhantomAuthor points at any website and comes back with a full passive recon report — tech stack, security headers, SSL/TLS health, real CVE matches, attack surface, cookies, third-party services, and a weighted security score. Single Python file, zero pip installs, terminal-first, color-coded — same DNA as `PhantomSniff` and `PhantomShield AI`.
 
 ```
-  ███████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
-  ██╔══██║ ██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
-  ██████╔╝ ███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
-  ██╔══╝   ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
-  ██║      ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
-  ╚═╝      ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝
-                    R E C O N
+ ███████████  █████                            █████                            
+░░███░░░░░███░░███                            ░░███                             
+ ░███    ░███ ░███████    ██████   ████████   ███████    ██████  █████████████  
+ ░██████████  ░███░░███  ░░░░░███ ░░███░░███ ░░░███░    ███░░███░░███░░███░░███ 
+ ░███░░░░░░   ░███ ░███   ███████  ░███ ░███   ░███    ░███ ░███ ░███ ░███ ░███ 
+ ░███         ░███ ░███  ███░░███  ░███ ░███   ░███ ███░███ ░███ ░███ ░███ ░███ 
+ █████        ████ █████░░████████ ████ █████  ░░█████ ░░██████  █████░███ █████
+░░░░░        ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░    ░░░░░   ░░░░░░  ░░░░░ ░░░ ░░░░░ 
+                                                                        
+      █████████               █████    █████                                    
+     ███░░░░░███             ░░███    ░░███                                     
+    ░███    ░███  █████ ████ ███████   ░███████    ██████  ████████             
+    ░███████████ ░░███ ░███ ░░░███░    ░███░░███  ███░░███░░███░░███            
+    ░███░░░░░███  ░███ ░███   ░███     ░███ ░███ ░███ ░███ ░███ ░░░             
+    ░███    ░███  ░███ ░███   ░███ ███ ░███ ░███ ░███ ░███ ░███                 
+    █████   █████ ░░████████  ░░█████  ████ █████░░██████  █████                
+   ░░░░░   ░░░░░   ░░░░░░░░    ░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░                 
+                                                                                
+                                                                                
+                                                                                
 ```
 
 ---
@@ -72,7 +85,7 @@ That's it. Nothing to `pip install`.
 ## Usage
 
 ```bash
-python3 phantom_recon.py
+python3 phantom_author.py
 ```
 
 You'll land on the menu:
@@ -95,7 +108,7 @@ phantom-recon> 1          # run the full scan
 
 ## Optional Free API Keys
 
-PhantomRecon works fully without any keys. Set these as environment variables to unlock more data:
+PhantomAuthor works fully without any keys. Set these as environment variables to unlock more data:
 
 | Variable | Unlocks | Get it |
 |----------|---------|--------|
@@ -105,7 +118,7 @@ PhantomRecon works fully without any keys. Set these as environment variables to
 ```bash
 export NVD_API_KEY="your-key-here"
 export SHODAN_API_KEY="your-key-here"
-python3 phantom_recon.py
+python3 phantom_author.py
 ```
 
 ## Sample Output
@@ -132,7 +145,7 @@ python3 phantom_recon.py
 ## How It Works (Methodology)
 
 - **Tech/CMS/server detection** — pattern matching on response headers + HTML, same approach as Wappalyzer
-- **DB fingerprinting** — passive heuristic only; PhantomRecon never sends probing payloads to trigger DB errors
+- **DB fingerprinting** — passive heuristic only; PhantomAuthor never sends probing payloads to trigger DB errors
 - **Vuln intel** — live keyword query against NVD's public CVE API + cross-reference against CISA's published Known Exploited Vulnerabilities feed
 - **Attack surface** — short-timeout connect scan on ~19 common ports, certificate-transparency subdomain lookup via crt.sh, and a small built-in wordlist for common admin/login/API paths
 - **Performance** — actual measured load time and fetched JS/CSS payload sizes, not estimates
@@ -158,4 +171,4 @@ This project is licensed under the Apache License 2.0. See the [LICENSE](LICENSE
 
 ---
 
-Built as part of the **Phantom** security toolkit · `PhantomSniff` · `PhantomShield AI` · `PhantomCTF` · **PhantomRecon**
+Built as part of the **Phantom** security toolkit · `PhantomSniff` · `PhantomShield AI` · `PhantomCTF` · **PhantomAuthor**
