@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-PHANTOM RECON
+PHANTOM AUTHOR
 Website reconnaissance & security fingerprinting tool.
 Part of the Phantom security toolkit.
 
@@ -38,32 +38,40 @@ class C:
     END = "\033[0m"
 
 DEFAULT_HEADERS = {
-    "User-Agent": "Mozilla/5.0 (PhantomRecon/1.0; +educational-authorized-security-scan)"
+    "User-Agent": "Mozilla/5.0 (PhantomAuthor/1.0; +educational-authorized-security-scan)"
 }
 
 
 # ANSI-Shadow figlet-style banner (Phantom toolkit house style)
-_PHANTOM_ART = r"""██████╗ ██╗  ██╗ █████╗ ███╗   ██╗████████╗ ██████╗ ███╗   ███╗
-██╔══██╗██║  ██║██╔══██╗████╗  ██║╚══██╔══╝██╔═══██╗████╗ ████║
-██████╔╝███████║███████║██╔██╗ ██║   ██║   ██║   ██║██╔████╔██║
-██╔═══╝ ██╔══██║██╔══██║██║╚██╗██║   ██║   ██║   ██║██║╚██╔╝██║
-██║     ██║  ██║██║  ██║██║ ╚████║   ██║   ╚██████╔╝██║ ╚═╝ ██║
-╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═══╝   ╚═╝    ╚═════╝ ╚═╝     ╚═╝"""
-
-_RECON_ART = r"""██████╗ ███████╗ ██████╗ ██████╗ ███╗   ██╗
-██╔══██╗██╔════╝██╔════╝██╔═══██╗████╗  ██║
-██████╔╝█████╗  ██║     ██║   ██║██╔██╗ ██║
-██╔══██╗██╔══╝  ██║     ██║   ██║██║╚██╗██║
-██║  ██║███████╗╚██████╗╚██████╔╝██║ ╚████║
-╚═╝  ╚═╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝"""
-
+# Block-letter ASCII art, built from solid blocks (Phantom toolkit house style)
+_PHANTOM_ART = [
+    """    ███████████  █████                            █████                            
+     ░░███░░░░░███░░███                            ░░███                             
+      ░███    ░███ ░███████    ██████   ████████   ███████    ██████  █████████████  
+      ░██████████  ░███░░███  ░░░░░███ ░░███░░███ ░░░███░    ███░░███░░███░░███░░███ 
+      ░███░░░░░░   ░███ ░███   ███████  ░███ ░███   ░███    ░███ ░███ ░███ ░███ ░███ 
+      ░███         ░███ ░███  ███░░███  ░███ ░███   ░███ ███░███ ░███ ░███ ░███ ░███ 
+      █████        ████ █████░░████████ ████ █████  ░░█████ ░░██████  █████░███ █████
+     ░░░░░        ░░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░    ░░░░░   ░░░░░░  ░░░░░ ░░░ ░░░░░ """
+]
+_AUTHOR_ART = ["""
+      █████████               █████    █████                                    
+     ███░░░░░███             ░░███    ░░███                                     
+    ░███    ░███  █████ ████ ███████   ░███████    ██████  ████████             
+    ░███████████ ░░███ ░███ ░░░███░    ░███░░███  ███░░███░░███░░███            
+    ░███░░░░░███  ░███ ░███   ░███     ░███ ░███ ░███ ░███ ░███ ░░░             
+    ░███    ░███  ░███ ░███   ░███ ███ ░███ ░███ ░███ ░███ ░███                 
+    █████   █████ ░░████████  ░░█████  ████ █████░░██████  █████                
+   ░░░░░   ░░░░░   ░░░░░░░░    ░░░░░  ░░░░ ░░░░░  ░░░░░░  ░░░░░                 
+                                                                    """
+]
 
 def banner():
     print()
-    for line in _PHANTOM_ART.splitlines():
+    for line in _PHANTOM_ART:
         print(f"  {C.CYAN}{C.BOLD}{line}{C.END}")
     print()
-    for line in _RECON_ART.splitlines():
+    for line in _AUTHOR_ART:
         print(f"  {C.VIOLET}{C.BOLD}{line}{C.END}")
     print()
     print(f"  {C.GREEN}// website fingerprinting & attack surface scanner{C.END}")
@@ -741,7 +749,7 @@ def export_report(report):
     if not report:
         warn("No report to export yet. Run a scan first.")
         return
-    fname = f"phantom_recon_report_{int(time.time())}.json"
+    fname = f"phantom_author_report_{int(time.time())}.json"
     with open(fname, "w") as f:
         json.dump(report, f, indent=2, default=str)
     good(f"Report saved to {fname}")
@@ -765,7 +773,7 @@ def main_menu():
             print(f"  {C.GRAY}Current target: {C.GREEN}{target['url']}{C.END}")
         for i, opt in enumerate(options):
             print(f"  {C.CYAN}[{i}]{C.END} {opt}")
-        choice = input(f"\n  {C.VIOLET}{C.BOLD}phantom-recon>{C.END} ").strip()
+        choice = input(f"\n  {C.VIOLET}{C.BOLD}phantom-author>{C.END} ").strip()
 
         if choice == "0":
             new_target = prompt_target()
@@ -820,16 +828,3 @@ if __name__ == "__main__":
     except KeyboardInterrupt:
         print(f"\n{C.VIOLET}Interrupted. Stay phantom. 👻{C.END}")
         sys.exit(0)
-
-# PhantomShield
-# Copyright 2026 Suganth B
-#
-# Licensed under the Apache License, Version 2.0
-# You may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND.
